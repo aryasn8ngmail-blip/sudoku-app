@@ -26,17 +26,18 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-[data-theme="light"] {
-  --bg: #f8fafc;
+[data-theme="light"],
+body.light {
+  --bg: #f5f7fa;
   --surface: #ffffff;
   --cell: #ffffff;
-  --cell-empty: #f1f5f9;
-  --line: #cbd5e1;
-  --text: #0f172a;
-  --text-dim: #64748b;
-  --accent: #3b82f6;
-  --accent-2: #9333ea;
-  --gradient: linear-gradient(135deg, #3b82f6, #9333ea);
+  --cell-empty: #f9fafb;
+  --line: #e5e7eb;
+  --text: #0f1720;
+  --text-dim: #4b5563;
+  --accent: #4f8cff;
+  --accent-2: #a855f7;
+  --gradient: linear-gradient(135deg, #4f8cff, #a855f7);
   --user: #2563eb;
   --error: #ef4444;
   --peer: #e8eef7;
@@ -202,3 +203,25 @@ h1, h2, h3, h4, h5, h6 {
 
 .diff-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
 .diff-desc { font-size: 0.85rem; opacity: 0.8; font-weight: 400; color: var(--text-dim); }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+
+[data-theme="light"] .btn-secondary,
+body.light .btn-secondary {
+  background: #ffffff;
+  color: #0f1720;
+  border: 1px solid #e5e7eb;
+}
+
+[data-theme="light"] .btn-card,
+body.light .btn-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+[data-theme="light"] .btn-icon,
+body.light .btn-icon {
+  color: #4b5563;
+}
