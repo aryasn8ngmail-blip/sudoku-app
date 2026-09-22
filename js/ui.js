@@ -387,9 +387,7 @@ function renderLevels() {
           let extraClass = '';
           if (!foundCurrent) { extraClass = ' current'; foundCurrent = true; }
           lvlBtn.className = `btn level-btn${extraClass}`;
-          let emptyStarsHTML = '';
-          for (let s = 1; s <= 3; s++) emptyStarsHTML += '<svg class="star-empty"><use href="#icon-star"/></svg>';
-          lvlBtn.innerHTML = `<span class="level-num">${id}</span><span class="level-stars">${emptyStarsHTML}</span>`;
+          lvlBtn.innerHTML = `<span class="level-num">${id}</span><span class="level-play-indicator"><svg style="width: 10px; height: 10px; fill: #4f8cff; margin-top: 2px;"><use href="#icon-play"/></svg></span>`;
         }
         lvlBtn.addEventListener('click', () => { unlockAudio(); sfx.tap(); levelsScrollPos = container.scrollTop; startStoryLevel(id); });
       }

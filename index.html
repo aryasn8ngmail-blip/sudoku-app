@@ -13,7 +13,7 @@
 </head>
 <body>
   <!-- Inline SVG Symbol Set (FIX 3.2) -->
-  <svg style="display: none;">
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
     <defs>
       <linearGradient id="crown-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#4f8cff" />
@@ -69,6 +69,11 @@
       <!-- Star Icon -->
       <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </symbol>
+
+      <!-- Play Icon -->
+      <symbol id="icon-play" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="7 4 19 12 7 20"/>
       </symbol>
 
       <!-- Lock Icon -->
@@ -190,8 +195,7 @@
       <header class="home-header">
         <div class="home-crown-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="url(#crown-gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 4l3 12h14l3-12-6 7-4-5-4 5-6-7z"/>
-            <path d="M3 20h18"/>
+            <use href="#icon-crown"/>
           </svg>
         </div>
         <h1 class="logo-title">SUDOKU MASTER</h1>

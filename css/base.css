@@ -168,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.2s ease, filter 0.15s ease;
+  transition: transform 80ms ease, opacity 80ms ease, background-color 150ms ease, filter 80ms ease;
 }
 
 @media (hover: hover) {
@@ -178,8 +178,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.btn:active {
-  transform: scale(0.98) !important;
+.btn:active,
+.tier-nav-btn:active,
+.switch:active {
+  transform: scale(0.97) !important;
 }
 
 .btn-primary { background: #4f8cff; color: #ffffff; }
