@@ -34,18 +34,15 @@
 /* Home Screen Redesign (FIX 2) */
 .home-bg-glow { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
 .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: floatOrbs 20s infinite ease-in-out alternate; }
+[data-theme="light"] .glow-orb { opacity: 0.06; }
 .orb-1 { width: 250px; height: 250px; background: #4f8cff; top: 10%; left: 10%; }
 .orb-2 { width: 250px; height: 250px; background: #a855f7; bottom: 15%; right: 10%; animation-delay: -10s; }
 
-.home-grid-pattern {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px; pointer-events: none; z-index: 0;
-}
+.home-grid-pattern { display: none; }
 
 #home-screen { justify-content: center; align-items: center; text-align: center; position: relative; z-index: 1; gap: 30px; }
 .home-header { display: flex; flex-direction: column; align-items: center; }
-.home-crown-icon { width: 72px; height: 72px; margin-bottom: 12px; color: #4f8cff; }
+.home-crown-icon { width: 72px; height: 72px; margin-bottom: 16px; color: #4f8cff; }
 .home-crown-icon svg { width: 100%; height: 100%; }
 
 .logo-title {
@@ -82,8 +79,8 @@
 
 /* Screens */
 .screen { flex: 1; display: flex; flex-direction: column; padding: 16px; overflow-y: auto; }
-.screen-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.screen-header h2 { font-size: 1.3rem; font-weight: 700; }
+.screen-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 4px 0; }
+.screen-header h2 { font-size: 16px; font-weight: 600; color: var(--text); }
 
 /* Levels Screen (FIX 4) */
 .levels-sticky-nav {
@@ -120,7 +117,7 @@
 
 .level-btn.locked { opacity: 0.5; }
 .level-num { font-size: 1rem; font-weight: 700; }
-.level-stars { font-size: 0.75rem; color: #f59e0b; display: flex; align-items: center; gap: 2px; }
+.level-stars, .level-play-indicator { font-size: 0.75rem; color: #f59e0b; display: flex; align-items: center; justify-content: center; gap: 2px; height: 16px; }
 .level-stars svg { width: 14px; height: 14px; fill: currentColor; }
 .level-stars .star-empty { color: #7b8596; fill: none; stroke: currentColor; stroke-width: 2; }
 .level-stars .star-gold { color: #f59e0b; fill: #f59e0b; }
