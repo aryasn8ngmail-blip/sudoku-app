@@ -220,3 +220,216 @@ input:checked + .slider:before { transform: translateX(20px); }
 #toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 400; pointer-events: none; }
 .toast-message { background: rgba(21, 26, 35, 0.95); color: var(--text); border: 1px solid var(--accent); padding: 10px 18px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
 .toast-message.show { opacity: 1; transform: translateY(0); }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+
+/* Home Screen Light Mode (BUG 6) */
+[data-theme="light"] .glow-orb,
+body.light .glow-orb {
+  opacity: 0.06;
+}
+
+[data-theme="light"] .home-menu .btn-outline,
+body.light .home-menu .btn-outline {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #0f1720;
+}
+
+/* Screen Headers & Back Buttons */
+[data-theme="light"] .screen-header h2,
+body.light .screen-header h2 {
+  color: #0f1720;
+}
+
+[data-theme="light"] .screen-header .btn-icon,
+body.light .screen-header .btn-icon {
+  color: #4b5563;
+}
+
+/* Story Mode Levels Light Mode (BUG 4) */
+[data-theme="light"] .levels-sticky-nav,
+body.light .levels-sticky-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+[data-theme="light"] .tier-nav-btn,
+body.light .tier-nav-btn {
+  color: #6b7280;
+}
+
+[data-theme="light"] .tier-nav-btn.active,
+body.light .tier-nav-btn.active {
+  background-color: #4f8cff;
+  color: #ffffff;
+}
+
+[data-theme="light"] .tier-header,
+body.light .tier-header {
+  color: #0f1720;
+}
+
+[data-theme="light"] .level-btn,
+body.light .level-btn {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #0f1720;
+}
+
+[data-theme="light"] .level-btn.completed,
+body.light .level-btn.completed {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22c55e;
+}
+
+[data-theme="light"] .level-btn.current,
+body.light .level-btn.current {
+  border-color: #4f8cff;
+}
+
+[data-theme="light"] .level-btn.locked,
+body.light .level-btn.locked {
+  opacity: 1;
+  color: #9ca3af;
+}
+
+[data-theme="light"] .level-btn.locked .level-num,
+body.light .level-btn.locked .level-num {
+  color: #9ca3af;
+}
+
+[data-theme="light"] .level-btn.locked svg,
+body.light .level-btn.locked svg {
+  stroke: #f59e0b;
+}
+
+[data-theme="light"] .level-play-indicator svg,
+body.light .level-play-indicator svg {
+  fill: #4f8cff;
+}
+
+/* Endless Mode Light Mode (BUG 3) */
+[data-theme="light"] .section-desc,
+body.light .section-desc {
+  color: #4b5563;
+}
+
+[data-theme="light"] .difficulty-grid .btn-card,
+body.light .difficulty-grid .btn-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+[data-theme="light"] .diff-desc,
+body.light .diff-desc {
+  color: #6b7280;
+}
+
+/* Settings Screen Light Mode (BUG 2) */
+[data-theme="light"] .settings-section-header,
+body.light .settings-section-header {
+  color: #4f8cff;
+}
+
+[data-theme="light"] .setting-item,
+body.light .setting-item {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #0f1720;
+}
+
+/* Stats Screen Light Mode (BUG 1) */
+[data-theme="light"] .stats-card,
+body.light .stats-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+[data-theme="light"] .stats-card-header,
+body.light .stats-card-header {
+  color: #0f1720;
+}
+
+[data-theme="light"] .stats-row,
+body.light .stats-row {
+  color: #4b5563;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+[data-theme="light"] .stats-row span:last-child,
+body.light .stats-row span:last-child {
+  color: #0f1720;
+}
+
+[data-theme="light"] .progress-ring-bg,
+body.light .progress-ring-bg {
+  stroke: #e5e7eb;
+}
+
+[data-theme="light"] .ring-val,
+body.light .ring-val {
+  color: #0f1720;
+}
+
+[data-theme="light"] .ring-total,
+body.light .ring-total,
+[data-theme="light"] .progress-ring-caption,
+body.light .progress-ring-caption {
+  color: #6b7280;
+}
+
+[data-theme="light"] .time-bar-label span:first-child,
+body.light .time-bar-label span:first-child {
+  color: #4b5563;
+}
+
+[data-theme="light"] .time-bar-label span:last-child,
+body.light .time-bar-label span:last-child {
+  color: #0f1720;
+}
+
+[data-theme="light"] .time-bar-track,
+body.light .time-bar-track {
+  background: #e5e7eb;
+}
+
+/* Modals Light Mode */
+[data-theme="light"] .modal-card,
+body.light .modal-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .modal-card h2,
+body.light .modal-card h2,
+[data-theme="light"] .modal-card h3,
+body.light .modal-card h3 {
+  color: #0f1720;
+}
+
+[data-theme="light"] .win-stats,
+body.light .win-stats {
+  background: #f5f7fa;
+}
+
+[data-theme="light"] .stat-lbl,
+body.light .stat-lbl {
+  color: #6b7280;
+}
+
+[data-theme="light"] .stat-val,
+body.light .stat-val {
+  color: #0f1720;
+}
+
+[data-theme="light"] .toast-message,
+body.light .toast-message {
+  background: #ffffff;
+  color: #0f1720;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
