@@ -1,5 +1,5 @@
 // js/stats.js - Statistics tracking, achievements and stats screen renderer
-import { safeGet, safeSet } from './storage.js';
+import { safeGet, safeSet, safeRemove } from './storage.js';
 import { getProgress, getEndlessStats, ENDLESS_DIFFICULTIES } from './levels.js';
 import { sfx, vibrate } from './settings.js';
 import { toast } from './animations.js';
@@ -94,34 +94,137 @@ export function renderStats() {
   const endlessStats = getEndlessStats();
 
   const completedCount = Object.keys(progress).length;
-  const totalPlayTimeMin = Math.round(storyStats.totalPlayTime / 60);
+  const radius = 50;
+  const circumference = 2 * Math.PI * radius;
+  const progressOffset = circumference - (completedCount / 200) * circumference;
 
-  // Story Card
-  const storyCard = document.createElement('div');
-  storyCard.className = 'stats-card';
-  storyCard.innerHTML = `
-    <h3>Story Mode Progress</h3>
-    <div class="stats-row"><span>Levels Completed</span><span>${completedCount} / 200</span></div>
+  // 1. Progress Card with Circular Ring (FIX 5.1 & 5.2)
+  const progressCard = document.createElement('div');
+  progressCard.className = 'stats-card';
+  progressCard.innerHTML = `
+    <div class="stats-card-header">
+      <svg><use href="#icon-trophy"/></svg>
+      <span>Progress</span>
+    </div>
+    <div class="progress-ring-container">
+      <div class="progress-ring-wrapper">
+        <svg class="progress-ring-svg" viewBox="0 0 120 120">
+          <circle class="progress-ring-bg" cx="60" cy="60" r="${radius}" stroke-width="8" fill="none"/>
+          <circle class="progress-ring-bar" cx="60" cy="60" r="${radius}" stroke-width="8" fill="none"
+            stroke-dasharray="${circumference}" stroke-dashoffset="${progressOffset}" stroke-linecap="round"/>
+        </svg>
+        <div class="progress-ring-text">
+          <span class="ring-val">${completedCount}</span>
+          <span class="ring-total">/ 200</span>
+        </div>
+      </div>
+      <div class="progress-ring-caption">Levels Completed</div>
+    </div>
+  `;
+  container.appendChild(progressCard);
+
+  // 2. Streaks Card (FIX 5.2 & 5.3)
+  const streaksCard = document.createElement('div');
+  streaksCard.className = 'stats-card';
+  streaksCard.innerHTML = `
+    <div class="stats-card-header">
+      <svg><use href="#icon-flame"/></svg>
+      <span>Streaks</span>
+    </div>
     <div class="stats-row"><span>Current Win Streak</span><span>${storyStats.currentStreak}</span></div>
     <div class="stats-row"><span>Best Win Streak</span><span>${storyStats.bestStreak}</span></div>
-    <div class="stats-row"><span>Total Play Time</span><span>${totalPlayTimeMin} mins</span></div>
-    <div class="stats-row"><span>Best Time (Easy)</span><span>${storyStats.bestTimes.easy ? formatTime(storyStats.bestTimes.easy) : '--:--'}</span></div>
-    <div class="stats-row"><span>Best Time (Medium)</span><span>${storyStats.bestTimes.medium ? formatTime(storyStats.bestTimes.medium) : '--:--'}</span></div>
-    <div class="stats-row"><span>Best Time (Hard)</span><span>${storyStats.bestTimes.hard ? formatTime(storyStats.bestTimes.hard) : '--:--'}</span></div>
-    <div class="stats-row"><span>Best Time (Expert)</span><span>${storyStats.bestTimes.expert ? formatTime(storyStats.bestTimes.expert) : '--:--'}</span></div>
   `;
-  container.appendChild(storyCard);
+  container.appendChild(streaksCard);
 
-  // Endless Card
+  // 3. Best Times Card with Horizontal Bar Charts (FIX 5.2 & 5.4)
+  const timesCard = document.createElement('div');
+  timesCard.className = 'stats-card';
+
+  const validTimes = Object.values(storyStats.bestTimes).filter(t => t !== null);
+  const minTime = validTimes.length > 0 ? Math.min(...validTimes) : 1;
+
+  let timesHTML = `
+    <div class="stats-card-header">
+      <svg><use href="#icon-clock"/></svg>
+      <span>Best Times</span>
+    </div>
+  `;
+
+  const tiers = [
+    { key: 'easy', label: 'Easy', fillClass: 'fill-easy' },
+    { key: 'medium', label: 'Medium', fillClass: 'fill-medium' },
+    { key: 'hard', label: 'Hard', fillClass: 'fill-hard' },
+    { key: 'expert', label: 'Expert', fillClass: 'fill-expert' }
+  ];
+
+  tiers.forEach(tier => {
+    const timeVal = storyStats.bestTimes[tier.key];
+    const timeStr = timeVal ? formatTime(timeVal) : '--:--';
+    const barPct = timeVal ? Math.min(100, Math.max(15, Math.round((minTime / timeVal) * 100))) : 0;
+
+    timesHTML += `
+      <div class="time-bar-row">
+        <div class="time-bar-label">
+          <span>${tier.label}</span>
+          <span>${timeStr}</span>
+        </div>
+        <div class="time-bar-track">
+          <div class="time-bar-fill ${tier.fillClass}" style="width: ${barPct}%;"></div>
+        </div>
+      </div>
+    `;
+  });
+
+  timesCard.innerHTML = timesHTML;
+  container.appendChild(timesCard);
+
+  // 4. Endless Mode Card (FIX 5.2)
   const endlessCard = document.createElement('div');
   endlessCard.className = 'stats-card';
-  let endlessRows = '<h3>Endless Mode Stats</h3>';
-  ['easy', 'medium', 'hard', 'expert'].forEach(d => {
-    const st = endlessStats[d] || { played: 0, won: 0, bestTime: null };
-    const name = ENDLESS_DIFFICULTIES[d].name;
+  let endlessHTML = `
+    <div class="stats-card-header">
+      <svg><use href="#icon-star"/></svg>
+      <span>Endless Mode</span>
+    </div>
+  `;
+
+  const endlessDiffs = [
+    { key: 'easy', label: 'Easy', color: '#22c55e' },
+    { key: 'medium', label: 'Medium', color: '#4f8cff' },
+    { key: 'hard', label: 'Hard', color: '#f59e0b' },
+    { key: 'expert', label: 'Expert', color: '#ef4444' }
+  ];
+
+  endlessDiffs.forEach(d => {
+    const st = endlessStats[d.key] || { played: 0, won: 0, bestTime: null };
     const timeStr = st.bestTime ? formatTime(st.bestTime) : '--:--';
-    endlessRows += `<div class="stats-row"><span>${name}</span><span>${st.won}/${st.played} won (Best: ${timeStr})</span></div>`;
+    endlessHTML += `
+      <div class="stats-row">
+        <span><span class="diff-dot" style="background-color: ${d.color};"></span>${d.label}</span>
+        <span>${st.won}/${st.played} won (Best: ${timeStr})</span>
+      </div>
+    `;
   });
-  endlessCard.innerHTML = endlessRows;
+
+  endlessCard.innerHTML = endlessHTML;
   container.appendChild(endlessCard);
+
+  // 5. Reset Stats Button (FIX 5.5)
+  const resetBtnContainer = document.createElement('div');
+  resetBtnContainer.style.marginTop = '10px';
+  resetBtnContainer.innerHTML = `
+    <button id="btn-reset-stats-page" class="btn btn-outline-danger btn-lg">
+      <svg style="width: 18px; height: 18px; stroke: currentColor; fill: none; margin-right: 8px;"><use href="#icon-warning"/></svg>
+      <span>Reset Statistics</span>
+    </button>
+  `;
+  container.appendChild(resetBtnContainer);
+
+  const resetBtn = resetBtnContainer.querySelector('#btn-reset-stats-page');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      sfx.tap();
+      document.getElementById('reset-confirm-modal').classList.remove('hidden');
+    });
+  }
 }
